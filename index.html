@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning &amp; Decision-Making · Master Cognitive Science, ENS–PSL</title>
+<meta name="description" content="A graduate course on the behavioural and computational science of value-based decision-making. Master Cognitive Science (M2), École normale supérieure – PSL. Tuesdays 9:30–11:30, 8 September – 15 December 2026.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Learning &amp; Decision-Making · Master Cognitive Science">
+<meta property="og:description" content="How humans, and increasingly machines, learn from experience and choose among options that differ in value, risk, time and social consequence.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   Design tokens
+   ============================================================ */
+:root{
+  /* palette */
+  --blue:#1C5588;  --cyan:#00BDC8;  --mint:#7ACFB0;  --peach:#FBCE9E;  --orange:#F88F52;
+  /* text-safe variants of the palette (contrast ≥ 4.5:1 on paper) */
+  --blue-ink:#16334F; --cyan-ink:#0A7A82; --mint-ink:#2E7E62; --peach-ink:#8F5E22; --orange-ink:#B0561F;
+
+  --paper:#FDF9F3;
+  --surface:#F7F0E6;
+  --card:#FFFFFF;
+  --hairline:#E7DCCB;
+  --hairline-soft:#F0E7D9;
+  --ink:#23282E;
+  --ink-strong:#16334F;
+  --muted:#6A6157;
+  --on-deep:#F3EEE4;
+  --on-deep-soft:#A9C3D8;
+  --deep:#12324F;
+  --deep-2:#0D2740;
+
+  /* component roles, themed here so no component rule sits inside a media block */
+  --btn-bg:#1C5588;      --btn-fg:#FDF9F3;      --btn-bg-hover:#164971;
+  --btn-shadow:rgba(28,85,136,.55);
+  --btn-hero-bg:#FBCE9E; --btn-hero-fg:#12324F; --btn-hero-bg-hover:#FFFFFF;
+  --mark-bg:#1C5588;     --mark-fg:#FDF9F3;
+  --shadow-card:rgba(18,50,79,.45);
+
+  /* fluid type scale */
+  --s-2:clamp(.72rem,.70rem + .08vw,.78rem);
+  --s-1:clamp(.83rem,.81rem + .10vw,.90rem);
+  --s0:clamp(1rem,.97rem + .16vw,1.08rem);
+  --s1:clamp(1.12rem,1.06rem + .28vw,1.28rem);
+  --s2:clamp(1.35rem,1.22rem + .62vw,1.72rem);
+  --s3:clamp(1.7rem,1.44rem + 1.25vw,2.5rem);
+  --s4:clamp(2.05rem,1.55rem + 2.55vw,3.9rem);
+
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Newsreader",Spectral,Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --container:74rem;
+  --gutter:clamp(1.25rem,.7rem + 2.4vw,2.75rem);
+  --radius:8px;
+  --radius-s:5px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+@media (prefers-color-scheme:dark){
+  :root{
+    --blue:#86B8E4; --cyan:#35D6DF; --mint:#8FDCC0; --peach:#FBCE9E; --orange:#FBA46E;
+    --blue-ink:#9CC7EC; --cyan-ink:#45DDE6; --mint-ink:#8FDCC0; --peach-ink:#FBCE9E; --orange-ink:#FBA46E;
+
+    --paper:#101A22;
+    --surface:#15222C;
+    --card:#1A2B37;
+    --hairline:#2A3E4C;
+    --hairline-soft:#223441;
+    --ink:#E6E2D9;
+    --ink-strong:#F4F0E7;
+    --muted:#9AA7B2;
+    --on-deep:#EEF3F7;
+    --on-deep-soft:#9FBAD0;
+    --deep:#0B1922;
+    --deep-2:#08131A;
+
+    --btn-bg:#86B8E4;      --btn-fg:#0B1922;      --btn-bg-hover:#A8CDEE;
+    --btn-shadow:rgba(134,184,228,.45);
+    --btn-hero-bg:#FBCE9E; --btn-hero-fg:#0B1922; --btn-hero-bg-hover:#FFFFFF;
+    --mark-bg:#86B8E4;     --mark-fg:#0B1922;
+    --shadow-card:rgba(0,0,0,.6);
+  }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:var(--s0);line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{
+  font-family:var(--serif);color:var(--ink-strong);
+  font-weight:500;line-height:1.16;letter-spacing:-.012em;margin:0;
+  text-wrap:balance;
+}
+p{margin:0}
+a{color:var(--blue-ink);text-decoration-color:color-mix(in srgb,var(--blue-ink) 35%,transparent);text-underline-offset:.18em}
+a:hover{text-decoration-color:currentColor}
+img,svg{max-width:100%}
+::selection{background:color-mix(in srgb,var(--cyan) 35%,transparent)}
+:focus-visible{outline:2.5px solid var(--cyan-ink);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+.measure{max-width:66ch}
+.skip{position:absolute;left:-9999px;top:0;background:var(--btn-bg);color:var(--btn-fg);padding:12px 18px;z-index:200;border-radius:0 0 var(--radius) 0}
+.skip:focus{left:0}
+
+/* small caps label used above every section heading */
+.eyebrow{
+  font-family:var(--mono);font-size:var(--s-2);font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--orange-ink);
+  margin:0 0 .85rem;display:flex;align-items:center;gap:.7rem;
+}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:currentColor;flex:0 0 auto;opacity:.75}
+
+.lede{font-size:var(--s1);line-height:1.6;color:var(--ink)}
+.muted{color:var(--muted)}
+
+/* ============================================================
+   Header
+   ============================================================ */
+header.site{
+  position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:saturate(1.5) blur(10px);-webkit-backdrop-filter:saturate(1.5) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav{display:flex;align-items:center;gap:1.25rem;min-height:70px}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ink-strong)}
+.brand .mark{
+  width:34px;height:34px;flex:0 0 auto;border-radius:var(--radius-s);
+  background:var(--mark-bg);color:var(--mark-fg);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:12.5px;font-weight:600;letter-spacing:.04em;
+}
+.brand .name{font-family:var(--serif);font-size:1.02rem;font-weight:500;line-height:1.2;letter-spacing:-.01em}
+.brand .sub{display:block;font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+nav.links{margin-left:auto;display:flex;align-items:center;gap:1.4rem}
+/* :not(.btn) keeps these rules off the Register button — plain `nav.links a`
+   outranks `.btn` and was overriding its colour and padding */
+nav.links a:not(.btn){color:var(--ink);font-size:var(--s-1);font-weight:500;text-decoration:none;position:relative;padding:.2rem 0}
+nav.links a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:1.5px;
+  background:var(--cyan);transform:scaleX(0);transform-origin:left;
+  transition:transform .28s var(--ease);
+}
+nav.links a:not(.btn):hover::after,nav.links a:not(.btn):focus-visible::after{transform:scaleX(1)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--btn-bg);color:var(--btn-fg);
+  /* a pill's rounded ends eat into the side space, so it needs more
+     horizontal padding than a rectangle to read as evenly spaced */
+  padding:.5rem 1.15rem;border-radius:999px;
+  font-size:var(--s-1);font-weight:600;text-decoration:none;
+  border:1px solid var(--btn-bg);
+  transition:transform .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease);
+}
+.btn:hover{background:var(--btn-bg-hover);border-color:var(--btn-bg-hover);color:var(--btn-fg);transform:translateY(-1px);box-shadow:0 6px 18px -8px var(--btn-shadow)}
+.btn.ghost{background:transparent;color:var(--ink-strong);border-color:var(--hairline)}
+.btn.ghost:hover{background:var(--surface);color:var(--ink-strong);box-shadow:none}
+.btn .arrow{transition:transform .25s var(--ease)}
+.btn:hover .arrow{transform:translateX(3px)}
+
+.menu-btn{
+  display:none;margin-left:auto;background:transparent;border:1px solid var(--hairline);
+  border-radius:999px;padding:.5rem .9rem;font:inherit;font-size:var(--s-1);font-weight:600;
+  color:var(--ink-strong);cursor:pointer;
+}
+#mobile-nav{display:none;border-top:1px solid var(--hairline);background:var(--paper)}
+#mobile-nav.open{display:block}
+#mobile-nav ul{list-style:none;margin:0;padding:.6rem var(--gutter) 1.1rem}
+#mobile-nav li+li{border-top:1px solid var(--hairline-soft)}
+#mobile-nav a{display:block;padding:.72rem 0;text-decoration:none;color:var(--ink);font-weight:500}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{position:relative;background:var(--deep);color:var(--on-deep);overflow:hidden;isolation:isolate}
+.hero .motif{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.8}
+.hero::after{ /* keeps the text legible over the traces */
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(100deg,var(--deep) 26%,color-mix(in srgb,var(--deep) 82%,transparent) 52%,transparent 92%),
+    linear-gradient(to top,color-mix(in srgb,var(--deep) 55%,transparent),transparent 42%);
+}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(3.5rem,2rem + 7vw,6.5rem) clamp(3rem,1.6rem + 6vw,5.5rem)}
+.hero .kicker{
+  font-family:var(--mono);font-size:var(--s-2);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--peach);margin:0 0 1.1rem;display:flex;align-items:center;gap:.7rem;
+}
+.hero .kicker::before{content:"";width:26px;height:1.5px;background:currentColor;opacity:.7}
+.hero h1{font-size:var(--s4);color:#fff;max-width:16ch;margin:0 0 1.1rem;font-weight:480;letter-spacing:-.02em;text-wrap:pretty}
+.hero h1 em{font-style:italic;color:var(--peach);white-space:nowrap}
+.hero .lead{font-size:var(--s1);color:var(--on-deep-soft);max-width:56ch;margin:0 0 1.9rem}
+
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.9rem}
+.chip{
+  display:inline-flex;align-items:baseline;gap:.5rem;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  color:var(--on-deep-soft);padding:.42rem .9rem;border-radius:999px;
+  font-size:var(--s-1);
+}
+/* the figure carries the emphasis through weight and the mono face, not colour */
+.chip b{font-family:var(--mono);font-weight:600;color:#fff;font-size:.94em}
+.hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
+.hero .btn{background:var(--btn-hero-bg);color:var(--btn-hero-fg);border-color:var(--btn-hero-bg)}
+.hero .btn:hover{background:var(--btn-hero-bg-hover);border-color:var(--btn-hero-bg-hover);color:var(--btn-hero-fg)}
+.hero .btn.ghost{background:transparent;color:var(--on-deep);border-color:rgba(255,255,255,.3)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.5)}
+
+.motif-note{
+  position:absolute;right:var(--gutter);bottom:1.15rem;z-index:2;
+  font-family:var(--mono);font-size:10.5px;line-height:1.5;letter-spacing:.03em;
+  color:var(--on-deep-soft);opacity:.7;text-align:right;max-width:30ch;
+}
+
+/* the accumulation traces */
+.trace{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.t-blue{stroke:#5E9BD0}.t-cyan{stroke:var(--cyan)}.t-mint{stroke:var(--mint)}
+.t-peach{stroke:var(--peach)}.t-orange{stroke:var(--orange);stroke-width:2.6;opacity:1}
+.bound{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1;stroke-dasharray:2 7}
+.midline{stroke:rgba(255,255,255,.14);stroke-width:1}
+
+/* ============================================================
+   Sections
+   ============================================================ */
+section{padding-block:clamp(3rem,1.8rem + 4.5vw,5rem);border-bottom:1px solid var(--hairline)}
+section.alt{background:var(--surface)}
+h2.sec{font-size:var(--s3);margin:0 0 1.15rem;max-width:20ch}
+.sec-head{margin-bottom:2rem}
+
+/* ---- Overview ---- */
+.overview-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:clamp(2rem,1rem + 3vw,4rem);align-items:start}
+.overview-grid p+p{margin-top:1rem}
+.facts{display:grid;gap:0;border-top:2px solid var(--hairline)}
+.fact{padding:.95rem 0;border-bottom:1px solid var(--hairline);display:flex;gap:1rem;align-items:baseline}
+.fact .k{
+  font-family:var(--mono);font-size:var(--s-2);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);flex:0 0 8.5rem;
+}
+.fact .v{font-size:var(--s-1);font-weight:600;color:var(--ink-strong);font-family:var(--serif);font-size:1.05rem;letter-spacing:-.01em}
+
+/* ---- Team ---- */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:.5rem}
+.card{
+  background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+  padding:1.5rem 1.4rem;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);
+}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c,var(--blue))}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -20px var(--shadow-card);border-color:color-mix(in srgb,var(--c,var(--blue)) 45%,var(--hairline))}
+.avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:color-mix(in srgb,var(--c) 24%,var(--card));
+  color:var(--c-ink,var(--ink-strong));
+  display:grid;place-items:center;margin-bottom:.95rem;
+  font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.03em;
+}
+.card h3{font-size:1.12rem;margin:0 0 .2rem}
+.card .role{
+  font-family:var(--mono);font-size:var(--s-2);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--c-ink,var(--muted));margin-bottom:.7rem;
+}
+.card p{color:var(--muted);font-size:var(--s-1);line-height:1.6}
+.contact-line{margin-top:1.6rem;font-size:var(--s-1);color:var(--muted)}
+
+/* ---- Schedule ---- */
+.tablewrap{margin-top:1.9rem;border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:var(--s-1)}
+thead th{
+  background:var(--surface);color:var(--muted);text-align:left;
+  padding:.85rem 1.15rem;font-family:var(--mono);font-weight:500;
+  font-size:var(--s-2);letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:1px solid var(--hairline);
+}
+tbody td{padding:.85rem 1.15rem;border-top:1px solid var(--hairline-soft);vertical-align:middle}
+tbody tr:first-child td{border-top:0}
+tbody tr{transition:background .2s var(--ease)}
+tbody tr:hover{background:color-mix(in srgb,var(--surface) 60%,var(--card))}
+td.date{white-space:nowrap;color:var(--muted);font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.86rem}
+td.sess{font-weight:500;color:var(--ink-strong)}
+td.sess .dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--c,var(--blue));margin-right:.65rem;vertical-align:.09em;flex:0 0 auto;
+}
+td.teach{white-space:nowrap;color:var(--muted);font-family:var(--mono);font-size:.8rem;letter-spacing:.02em}
+tr.off td{color:var(--muted);background:color-mix(in srgb,var(--surface) 45%,var(--card))}
+tr.off td.sess{font-weight:400;font-style:italic;color:var(--muted)}
+tr.off td.sess .dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--hairline)}
+.legend{
+  margin-top:.9rem;font-size:var(--s-2);color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;
+}
+.legend b{font-family:var(--mono);color:var(--ink-strong);font-weight:600;margin-right:.3rem}
+
+/* ---- Syllabus ---- */
+.syllabus{margin-top:1.9rem;display:grid;gap:.7rem}
+details.ses{
+  border:1px solid var(--hairline);border-radius:var(--radius);background:var(--card);
+  overflow:hidden;transition:border-color .25s var(--ease),box-shadow .25s var(--ease);
+}
+details.ses:hover{border-color:color-mix(in srgb,var(--c) 42%,var(--hairline))}
+details.ses[data-open],details.ses[open]{box-shadow:0 10px 26px -22px rgba(18,50,79,.5)}
+summary{
+  list-style:none;cursor:pointer;padding:1.05rem 1.3rem;
+  display:flex;align-items:center;gap:1rem;
+  font-family:var(--serif);font-size:var(--s1);font-weight:500;color:var(--ink-strong);
+  letter-spacing:-.012em;
+}
+summary::-webkit-details-marker{display:none}
+.num{
+  flex:0 0 auto;width:32px;height:32px;border-radius:var(--radius-s);
+  background:color-mix(in srgb,var(--c) 22%,var(--card));color:var(--c-ink);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:13px;font-weight:600;
+  transition:background .25s var(--ease);
+}
+details.ses[data-open] .num,details.ses[open] .num{background:color-mix(in srgb,var(--c) 42%,var(--card))}
+summary .t{flex:1;min-width:0}
+.chev{flex:0 0 auto;color:var(--c-ink);transition:transform .3s var(--ease);display:grid;place-items:center}
+details.ses[data-open] .chev,details.ses[open] .chev{transform:rotate(180deg)}
+.reveal{display:grid;grid-template-rows:1fr;transition:grid-template-rows .34s var(--ease)}
+html.js details.ses .reveal{grid-template-rows:0fr}
+html.js details.ses[data-open] .reveal{grid-template-rows:1fr}
+.reveal>.body{overflow:hidden}
+.reveal>.body>div{padding:0 1.4rem 1.35rem 4.3rem;font-size:var(--s-1);line-height:1.68;color:var(--ink)}
+.tags{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.tag{
+  background:color-mix(in srgb,var(--c) 20%,var(--card));color:var(--c-ink);
+  font-family:var(--mono);font-size:var(--s-2);font-weight:500;letter-spacing:.02em;
+  padding:.25rem .7rem;border-radius:999px;
+}
+
+/* ---- Practical ---- */
+.info{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:1.9rem}
+.info .card{padding-left:1.6rem}
+.info .card::before{inset:0 auto 0 0;width:3px;height:auto}
+.info .card h3{
+  font-family:var(--mono);font-size:var(--s-2);font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--c-ink);margin:0 0 .5rem;
+}
+.info .card p{color:var(--ink);font-size:var(--s-1)}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer.site{background:var(--deep);color:var(--on-deep-soft);border:0;position:relative;overflow:hidden}
+footer.site .footmotif{position:absolute;left:0;right:0;top:0;height:120px;width:100%;opacity:.3;z-index:0}
+footer.site .wrap{position:relative;z-index:1;padding-block:clamp(2.75rem,1.8rem + 3vw,4rem) 2rem}
+footer.site .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem}
+footer.site h4{
+  font-family:var(--mono);color:var(--peach);font-size:var(--s-2);font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;margin:0 0 .9rem;
+}
+footer.site a{color:var(--on-deep);text-decoration:none;transition:color .2s var(--ease)}
+footer.site a:hover{color:var(--cyan)}
+footer.site .brand{color:#fff;margin-bottom:1rem}
+footer.site .brand .mark{background:rgba(255,255,255,.12);color:#fff}
+footer.site .brand .sub{color:var(--on-deep-soft)}
+footer.site .blurb{max-width:38ch;font-size:var(--s-1);line-height:1.65;color:var(--on-deep-soft)}
+footer .flist{list-style:none;margin:0;padding:0;font-size:var(--s-1);display:grid;gap:.55rem}
+footer .fine{
+  margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.14);
+  font-family:var(--mono);font-size:var(--s-2);color:var(--on-deep-soft);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;opacity:.85;
+}
+
+/* ============================================================
+   Motion
+   ============================================================ */
+.trace{stroke-dasharray:1.02;stroke-dashoffset:1.02}
+html.js .hero .trace{animation:draw 2.6s var(--ease) forwards}
+html.js .hero .t-mint{animation-delay:.12s}
+html.js .hero .t-cyan{animation-delay:.24s}
+html.js .hero .t-blue{animation-delay:.36s}
+html.js .hero .t-orange{animation-delay:.5s;animation-duration:3s}
+html:not(.js) .trace,footer .trace{stroke-dashoffset:0}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+.rise{opacity:0;transform:translateY(18px)}
+html.js .rise{transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.rise.in{opacity:1;transform:none}
+html:not(.js) .rise{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
+  .trace{stroke-dashoffset:0!important}
+  .rise{opacity:1!important;transform:none!important}
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:900px){
+  .overview-grid{grid-template-columns:1fr;gap:2.25rem}
+  .grid3{grid-template-columns:1fr}
+  footer.site .cols{grid-template-columns:1fr;gap:2.25rem}
+}
+@media (max-width:780px){
+  nav.links{display:none}
+  .menu-btn{display:block}
+  .info{grid-template-columns:1fr}
+  .motif-note{display:none}
+  .hero h1{max-width:none}
+}
+@media (max-width:640px){
+  .reveal>.body>div{padding-left:1.4rem}
+  .fact{flex-direction:column;gap:.15rem}
+  .fact .k{flex:none}
+
+  /* schedule turns into stacked records */
+  .tablewrap{border-radius:var(--radius)}
+  table,tbody,tr,td{display:block;width:100%}
+  thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  tbody tr{padding:.95rem 1.15rem;border-top:1px solid var(--hairline-soft)}
+  tbody tr:first-child{border-top:0}
+  tbody td{padding:0;border:0}
+  td.date{font-size:.78rem;margin-bottom:.2rem}
+  td.sess{font-size:1rem;font-family:var(--serif);letter-spacing:-.01em}
+  td.teach{margin-top:.3rem;font-size:.75rem}
+  td.teach:empty{display:none}   /* "no class" rows have no teachers to list */
+  tr.off{background:color-mix(in srgb,var(--surface) 45%,var(--card))}
+  tr.off td{background:transparent}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true">LDM</span>
+      <span class="name">Learning &amp; Decision-Making<span class="sub">Master Cognitive Science · M2</span></span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#overview">Overview</a>
+      <a href="#team">Team</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#syllabus">Syllabus</a>
+      <a href="#practical">Practical info</a>
+      <a class="btn" href="mailto:learningdecisionmakingcourse@gmail.com">Register</a>
+    </nav>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+  </div>
+  <div id="mobile-nav">
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#syllabus">Syllabus</a></li>
+      <li><a href="#practical">Practical info</a></li>
+      <li><a href="mailto:learningdecisionmakingcourse@gmail.com">Register</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top" style="border:0">
+  <svg class="motif" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <line class="bound" x1="0" y1="48" x2="1200" y2="48"/>
+    <line class="bound" x1="0" y1="312" x2="1200" y2="312"/>
+    <line class="midline" x1="0" y1="180" x2="1200" y2="180"/>
+    <path pathLength="1" class="trace t-peach" d="M0 180C4 180 16 179 24 180C32 181 40 186 48 186C56 186 64 179 72 179C80 178 88 180 96 183C104 186 112 193 120 196C128 199 136 197 144 202C152 206 160 223 168 224C176 226 184 213 192 210C200 208 208 213 216 211C224 209 232 203 240 199C248 195 256 190 264 187C272 184 280 184 288 183C296 183 304 185 312 186C320 187 328 190 336 192C344 194 352 192 360 199C368 205 376 224 384 231C392 239 400 246 408 244C416 241 424 223 432 219C440 215 448 223 456 221C464 220 472 214 480 211C488 208 496 201 504 203C512 204 520 219 528 222C536 224 544 223 552 218C560 212 568 192 576 188C584 183 592 192 600 191C608 191 616 190 624 186C632 182 640 174 648 168C656 163 664 158 672 154C680 149 688 145 696 143C704 142 712 144 720 142C728 141 736 136 744 135C752 134 760 131 768 136C776 140 784 160 792 162C800 165 808 154 816 150C824 145 832 140 840 137C848 134 856 131 864 132C872 134 880 147 888 148C896 149 904 135 912 137C920 138 928 158 936 158C944 158 952 143 960 137C968 131 976 124 984 121C992 118 1000 122 1008 119C1016 117 1024 110 1032 106C1040 102 1048 96 1056 96C1064 95 1072 99 1080 102C1088 105 1096 110 1104 112C1112 114 1120 114 1128 113C1136 112 1144 106 1152 108C1160 111 1168 123 1176 128C1184 132 1196 132 1200 133"/>
+    <path pathLength="1" class="trace t-mint" d="M0 180C4 179 16 173 24 176C32 179 40 195 48 196C56 197 64 183 72 181C80 179 88 181 96 183C104 186 112 193 120 194C128 196 136 196 144 194C152 192 160 185 168 184C176 183 184 190 192 190C200 189 208 184 216 180C224 177 232 175 240 170C248 165 256 152 264 153C272 153 280 172 288 175C296 177 304 163 312 165C320 167 328 180 336 184C344 189 352 190 360 191C368 191 376 185 384 186C392 187 400 195 408 197C416 200 424 201 432 202C440 203 448 207 456 204C464 200 472 184 480 180C488 176 496 178 504 181C512 184 520 192 528 196C536 200 544 200 552 204C560 208 568 214 576 221C584 228 592 241 600 246C608 251 616 246 624 253C632 260 640 285 648 286C656 288 664 265 672 260C680 255 688 264 696 256C704 248 712 218 720 213C728 208 736 224 744 227C752 229 760 223 768 228C776 233 784 253 792 257C800 260 808 257 816 250C824 243 832 218 840 216C848 213 856 237 864 237C872 237 880 222 888 214C896 207 904 197 912 192C920 188 928 188 936 189C944 190 952 199 960 200C968 200 976 192 984 191C992 190 1000 199 1008 194C1016 189 1024 162 1032 162C1040 161 1048 186 1056 191C1064 196 1072 189 1080 190C1088 190 1096 189 1104 191C1112 193 1120 199 1128 201C1136 203 1144 203 1152 204C1160 205 1168 209 1176 207C1184 205 1196 194 1200 191"/>
+    <path pathLength="1" class="trace t-cyan" d="M0 180C4 180 16 177 24 177C32 177 40 179 48 181C56 184 64 192 72 194C80 195 88 191 96 191C104 190 112 190 120 190C128 191 136 192 144 193C152 195 160 198 168 199C176 201 184 201 192 201C200 200 208 198 216 196C224 194 232 187 240 188C248 189 256 199 264 201C272 204 280 204 288 204C296 204 304 195 312 203C320 210 328 237 336 246C344 255 352 253 360 257C368 260 376 264 384 266C392 268 400 269 408 267C416 264 424 252 432 252C440 252 448 264 456 266C464 267 472 264 480 263C488 263 496 260 504 262C512 264 520 270 528 274C536 278 544 284 552 286C560 288 568 288 576 288C584 288 592 283 600 287C608 291 620 308 624 312"/>
+    <path pathLength="1" class="trace t-blue" d="M0 180C4 181 16 190 24 189C32 188 40 175 48 175C56 175 64 184 72 186C80 189 88 189 96 189C104 190 112 188 120 190C128 192 136 198 144 201C152 203 160 199 168 205C176 210 184 228 192 233C200 239 208 236 216 237C224 238 232 238 240 241C248 245 256 257 264 258C272 260 280 250 288 251C296 252 304 263 312 266C320 268 328 263 336 266C344 269 352 282 360 283C368 284 376 273 384 272C392 271 400 281 408 279C416 276 424 261 432 257C440 252 448 252 456 251C464 251 472 251 480 252C488 254 496 254 504 260C512 266 520 280 528 288C536 297 548 308 552 312"/>
+    <path pathLength="1" class="trace t-orange" d="M0 180C4 177 16 168 24 164C32 160 40 154 48 154C56 154 64 162 72 164C80 166 88 168 96 166C104 163 112 152 120 150C128 147 136 154 144 152C152 150 160 142 168 138C176 134 184 132 192 127C200 123 208 115 216 112C224 109 232 104 240 107C248 109 256 123 264 127C272 130 280 129 288 128C296 128 304 121 312 125C320 128 328 145 336 147C344 150 352 142 360 140C368 138 376 138 384 136C392 135 400 131 408 131C416 130 424 133 432 133C440 132 448 126 456 127C464 128 472 138 480 139C488 140 496 134 504 134C512 133 520 136 528 137C536 137 544 138 552 136C560 134 568 129 576 125C584 121 592 116 600 113C608 110 616 115 624 110C632 105 640 89 648 85C656 80 664 83 672 82C680 82 688 81 696 81C704 80 712 80 720 79C728 79 736 77 744 76C752 76 760 78 768 77C776 76 784 72 792 71C800 71 808 78 816 75C824 73 832 58 840 56C848 54 856 64 864 63C872 62 880 53 888 52C896 50 904 54 912 54C920 53 932 49 936 48"/>
+  </svg>
+
+  <div class="wrap">
+    <p class="kicker">Master Cognitive Science · École normale supérieure – PSL</p>
+    <h1>Learning &amp; <em>Decision-Making</em></h1>
+    <p class="lead">A graduate course on the behavioural and computational science of value-based decision-making: how humans, and increasingly machines, learn from experience and choose among options that differ in value, risk, time and social consequence.</p>
+    <div class="chips">
+      <span class="chip"><b>M2</b> level</span>
+      <span class="chip"><b>4</b> ECTS</span>
+      <span class="chip">Taught in <b>English</b></span>
+      <span class="chip"><b>12</b> sessions</span>
+      <span class="chip">Tuesdays <b>9:30–11:30</b></span>
+      <span class="chip"><b>8 Sep – 15 Dec 2026</b></span>
+    </div>
+    <div class="cta">
+      <a class="btn" href="#syllabus">Explore the syllabus <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn ghost" href="#schedule">See the calendar</a>
+    </div>
+  </div>
+
+  <p class="motif-note">Evidence accumulating to a decision boundary:<br>the drift-diffusion model, session 3.</p>
+</section>
+
+<section id="overview">
+  <div class="wrap">
+    <div class="overview-grid">
+      <div class="rise">
+        <p class="eyebrow">Overview</p>
+        <h2 class="sec">About the course</h2>
+        <p class="lede">This course provides an overview of the science of value-based decision-making: how humans learn from experience and choose among options that differ in value, probability, risk, delay and social consequence. It approaches decision-making at two levels: the careful behavioural description of choice phenomena, and their explanation through formal and computational models.</p>
+        <p style="margin-top:1.1rem;color:var(--muted)">Normative benchmarks from economics and statistics serve as points of comparison against which systematic behavioural deviations are characterised and then re-interpreted, not automatically as errors but often as adaptive or resource-rational responses to the structure of the environment. The emphasis throughout is on connecting behavioural phenomena to mechanistic, computational explanations, and on keeping the normative, descriptive and mechanistic levels of analysis clearly distinct.</p>
+      </div>
+      <div class="facts rise">
+        <div class="fact"><span class="k">Level</span><span class="v">M2 · 4 ECTS</span></div>
+        <div class="fact"><span class="k">Prerequisite</span><span class="v">None</span></div>
+        <div class="fact"><span class="k">Language</span><span class="v">English</span></div>
+        <div class="fact"><span class="k">Assessment</span><span class="v">Homework + group talk</span></div>
+        <div class="fact"><span class="k">Room</span><span class="v">Théodule Ribot</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="alt">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">Teaching team</p>
+      <h2 class="sec">Who teaches the course</h2>
+    </div>
+    <div class="grid3">
+      <div class="card rise" style="--c:var(--blue);--c-ink:var(--blue-ink)">
+        <div class="avatar" aria-hidden="true">SP</div>
+        <h3>Dr Stefano Palminteri</h3>
+        <div class="role">Teacher</div>
+        <p>Reinforcement learning, value-based decision-making, and the behavioural study of learning in humans and machines.</p>
+      </div>
+      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
+        <div class="avatar" aria-hidden="true">ML</div>
+        <h3>Dr Maël Lebreton</h3>
+        <div class="role">Teacher</div>
+        <p>Decision under uncertainty, valuation, metacognition and confidence in human decision-making.</p>
+      </div>
+      <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
+        <div class="avatar" aria-hidden="true">ML</div>
+        <h3>Maëva L’Hôtellier</h3>
+        <div class="role">Teaching assistant</div>
+        <p>Supports all sessions, homework and the final presentations.</p>
+      </div>
+    </div>
+    <p class="contact-line rise">Contact: <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>, a generic address that redirects to the three of us.</p>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">Calendar</p>
+      <h2 class="sec">2026–2027 schedule</h2>
+      <p class="lede measure">Classes are held on Tuesdays, 9:30–11:30, at 29 rue d’Ulm (Room Théodule Ribot). The course runs from 8 September to 15 December 2026, with three breaks.</p>
+    </div>
+    <div class="tablewrap rise">
+      <table>
+        <thead><tr><th scope="col">Date</th><th scope="col">Session</th><th scope="col">Teachers</th></tr></thead>
+        <tbody>
+          <tr><td class="date">Tue 8 Sep 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Introduction to decision-making</td><td class="teach">SP · MLe · MLh</td></tr>
+          <tr><td class="date">Tue 15 Sep 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Decision-making under uncertainty</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 22 Sep 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Simple choices</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 29 Sep 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Reinforcement Learning 1</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 6 Oct 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Contextual decision-making</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 13 Oct 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Reinforcement Learning 2</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 20 Oct 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Metacognition</td><td class="teach">MLe · MLh</td></tr>
+          <tr class="off"><td class="date">Tue 27 Oct 2026</td><td class="sess"><span class="dot"></span>No class (autumn break)</td><td class="teach"></td></tr>
+          <tr><td class="date">Tue 3 Nov 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Social Learning</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 10 Nov 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Artificial learning and decision-making</td><td class="teach">SP · MLh</td></tr>
+          <tr class="off"><td class="date">Tue 17 Nov 2026</td><td class="sess"><span class="dot"></span>No class</td><td class="teach"></td></tr>
+          <tr class="off"><td class="date">Tue 24 Nov 2026</td><td class="sess"><span class="dot"></span>No class (PSL Week)</td><td class="teach"></td></tr>
+          <tr><td class="date">Tue 1 Dec 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Applying learning and decision-making research</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 8 Dec 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Oral presentations (1 of 2)</td><td class="teach">SP · MLe · MLh</td></tr>
+          <tr><td class="date">Tue 15 Dec 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Oral presentations (2 of 2)</td><td class="teach">SP · MLe · MLh</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="legend rise"><span><b>SP</b> Stefano Palminteri</span><span><b>MLe</b> Maël Lebreton</span><span><b>MLh</b> Maëva L’Hôtellier</span></p>
+  </div>
+</section>
+
+<section id="syllabus" class="alt">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">Syllabus</p>
+      <h2 class="sec">Class by class</h2>
+      <p class="lede measure">The course is a single intellectual progression, from the foundations of choice through learning, metacognition and social decision-making, to artificial agents and applications. Click a session to expand.</p>
+    </div>
+    <div class="syllabus">
+
+      <details class="ses rise" open data-open style="--c:var(--blue);--c-ink:var(--blue-ink)">
+        <summary><span class="num">1</span><span class="t">Introduction to decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          Introduces decision-making as a multidisciplinary field studied through normative (philosophy, mathematics, economics), descriptive (psychology, behavioural economics) and engineering/AI approaches. Surveys the tools and types of data used to study decisions, and the theory-building frameworks that organise the course (aggregate versus mechanistic, descriptive versus normative), together with Marr’s three levels of analysis, of which the course concentrates on the computational and algorithmic. Sets the guiding aim: describe choice behaviour carefully, then explain it with formal and computational models.
+          <div class="tags"><span class="tag">Marr’s levels</span><span class="tag">Normative vs descriptive</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
+        <summary><span class="num">2</span><span class="t">Decision-making under uncertainty</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          From Pascal’s wager, the St Petersburg paradox and Bernoulli’s utility to axiomatic expected-utility theory, and the anomalies (mixed gambles, the fourfold pattern) that Prospect Theory accommodates through gains, losses and loss aversion. Extends the same logic from risk to time: intertemporal choice and delay discounting, exponential versus hyperbolic discounting, and the preference reversals and present bias that follow. Closes on bounded rationality and the care required when eliciting preferences over risk and delay.
+          <div class="tags"><span class="tag">Prospect Theory</span><span class="tag">Delay discounting</span><span class="tag">Intertemporal choice</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
+        <summary><span class="num">3</span><span class="t">Simple choices</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          How a value-based decision is actually made once options are valued: a common currency for comparing qualitatively different options, and loss aversion as a property of that comparison. Focuses on sequential-sampling models and in particular the drift-diffusion model, developed for perceptual decisions and extended to value-based choice, where the momentary value difference is accumulated to a threshold, jointly accounting for choices and response times (including attention-weighted variants). Raises whether “simple choices” are truly simple.
+          <div class="tags"><span class="tag">Drift-diffusion model</span><span class="tag">Value comparison</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--peach);--c-ink:var(--peach-ink)">
+        <summary><span class="num">4</span><span class="t">Reinforcement Learning 1</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          Learning from experience, opening with the description–experience gap: choices among described options differ systematically from choices learned through sampling and feedback. Develops reinforcement learning from its behavioural roots in Pavlovian and operant conditioning (Pavlov, Thorndike, Skinner) to the Rescorla-Wagner model, where learning is driven by surprise. Q-learning captures state and action values, and ε-greedy and softmax formalise the exploration–exploitation trade-off. The focus stays on behavioural and computational processes.
+          <div class="tags"><span class="tag">Description–experience gap</span><span class="tag">Rescorla-Wagner</span><span class="tag">Q-learning</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--orange);--c-ink:var(--orange-ink)">
+        <summary><span class="num">5</span><span class="t">Contextual decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          How context shapes valuation, challenging the assumption of stable, context-invariant preferences: frames, reference points, ranges and menus (asymmetric dominance and decoy effects). These effects are captured computationally by divisive normalisation and, more generally, by efficient coding: limited representational resources allocated to the statistics of the environment, so adaptation and normalisation appear as near-optimal responses to coding constraints rather than failures of rationality.
+          <div class="tags"><span class="tag">Efficient coding</span><span class="tag">Divisive normalisation</span><span class="tag">Decoy effects</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--blue);--c-ink:var(--blue-ink)">
+        <summary><span class="num">6</span><span class="t">Reinforcement Learning 2</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          The biases and refinements of reinforcement learning: whether learning is absolute or relative; valence-induced biases (updating more from positive than negative outcomes) and their links to risk-seeking, status-quo bias and overconfidence, including the perseveration debate. A central theme is the modulation of learning rates, asymmetrically for good versus bad news and dynamically with uncertainty and volatility, before introducing the distinction between model-free and model-based control.
+          <div class="tags"><span class="tag">Learning-rate modulation</span><span class="tag">Optimism bias</span><span class="tag">Model-based control</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
+        <summary><span class="num">7</span><span class="t">Metacognition</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          Metacognition as the ability to evaluate one’s own decisions, captured through confidence judgements that track difficulty and the probability of being correct. Behavioural and animal studies reveal signatures of confidence (the X-pattern, sharper accuracy at high confidence); signal detection theory separates type-1 from type-2 performance (d’ and meta-d’). Considers whether a central metacognitive process governs confidence, and the motivational, affective and computational biases that shift it, sometimes producing overconfidence.
+          <div class="tags"><span class="tag">Confidence</span><span class="tag">Signal detection theory</span><span class="tag">meta-d’</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
+        <summary><span class="num">8</span><span class="t">Social Learning</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          How decisions are shaped by other people: social preferences (generosity, empathy, inequality aversion) that enter the utility function alongside personal payoffs. Experimental games (Ultimatum, Dictator) reveal the role of social context, identity and fairness; game theory formalises strategic interaction (Nash equilibria, coordination games, the Prisoner’s Dilemma), while humans deviate through bounded rationality and imperfect beliefs. Behavioural game theory shows how learning and experience shape social decisions, which vary across populations and contexts.
+          <div class="tags"><span class="tag">Social preferences</span><span class="tag">Game theory</span><span class="tag">Fairness</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--peach);--c-ink:var(--peach-ink)">
+        <summary><span class="num">9</span><span class="t">Artificial learning and decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          Applies the behavioural and computational lens of the course to artificial agents: delegating decisions to machines, and deciding with or against a machine (algorithmic advice, algorithm aversion and appreciation). Distinguishes explicit “explainable” expert systems from opaque connectionist networks, and asks how the choices of learning agents and large language models can be studied with the same paradigms used for humans, a “machine psychology”. Examines the alignment problem, and the opacity and brittleness of current systems, with reinforcement learning as the bridge between human and machine learning.
+          <div class="tags"><span class="tag">LLMs</span><span class="tag">Machine psychology</span><span class="tag">Alignment</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--orange);--c-ink:var(--orange-ink)">
+        <summary><span class="num">10</span><span class="t">Applying learning and decision-making research</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          How the science of decision-making can be used to improve decisions, contrasting three traditions of behaviour change: the behaviourist use of reinforcement and contingencies (Skinner); nudges that reshape the choice architecture while preserving freedom of choice (libertarian paternalism); and boosts that build people’s own competences, such as risk literacy. Then computational psychiatry (delusions as impaired Bayesian inference, addiction as reinforcement learning and discounting gone awry) and the transdiagnostic, dimensional view of decision parameters as continuous markers. Closes on the promise and limits of translation into health and policy.
+          <div class="tags"><span class="tag">Nudges &amp; boosts</span><span class="tag">Skinner</span><span class="tag">Computational psychiatry</span></div>
+        </div></div></div>
+      </details>
+
+      <details class="ses rise" style="--c:var(--blue);--c-ink:var(--blue-ink)">
+        <summary><span class="num">11</span><span class="t">Oral presentations (two sessions)</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <div class="reveal"><div class="body"><div>
+          The course closes with two sessions of group presentations. Each group presents on papers of its choice connected to a course topic, and is assessed on its understanding, its critical analysis and its ability to communicate the key concepts of the course. Spreading the presentations across two Tuesdays (8 and 15 December) gives each group adequate time and lets the cohort engage with a wider range of topics.
+          <div class="tags"><span class="tag">Group work</span><span class="tag">Assessment</span></div>
+        </div></div></div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<section id="practical">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">Practical information</p>
+      <h2 class="sec">Attending the course</h2>
+    </div>
+    <div class="info">
+      <div class="card rise" style="--c:var(--blue);--c-ink:var(--blue-ink)"><h3>Where</h3><p>29 rue d’Ulm, Room Théodule Ribot (ground floor; head past the large staircase and look for the hallway with wooden tables).</p></div>
+      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)"><h3>When</h3><p>Tuesdays, 9:30–11:30, from 8 September to 15 December 2026. No class on 27 October (autumn break), 17 November, or 24 November (PSL Week).</p></div>
+      <div class="card rise" style="--c:var(--orange);--c-ink:var(--orange-ink)"><h3>Registration</h3><p>To register, email <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>.</p></div>
+      <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)"><h3>Assessment</h3><p>A weighted combination of weekly homework assignments and a final group presentation. Grading criteria are detailed in the first class.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <svg class="footmotif" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path class="trace t-cyan" style="stroke-width:1.5" d="M0 96C40 96 80 88 120 84C160 80 200 82 240 74C280 66 320 48 360 44C400 40 440 54 480 52C520 50 560 32 600 28C640 24 680 34 720 30C760 26 800 12 840 10C880 8 920 18 960 16C1000 14 1040 4 1080 4C1120 4 1160 10 1200 8"/>
+    <path class="trace t-peach" style="stroke-width:1.5;opacity:.6" d="M0 112C40 108 80 112 120 104C160 96 200 84 240 86C280 88 320 100 360 96C400 92 440 74 480 72C520 70 560 82 600 78C640 74 680 56 720 54C760 52 800 62 840 58C880 54 920 40 960 38C1000 36 1040 44 1080 42C1120 40 1160 32 1200 30"/>
+  </svg>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand">
+          <span class="mark" aria-hidden="true">LDM</span>
+          <span class="name">Learning &amp; Decision-Making<span class="sub">Master Cognitive Science · M2</span></span>
+        </div>
+        <p class="blurb">A graduate course within the Master Cognitive Science at the École normale supérieure – PSL, Département d’Études Cognitives.</p>
+      </div>
+      <div>
+        <h4>Course</h4>
+        <ul class="flist">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#syllabus">Syllabus</a></li>
+          <li><a href="#practical">Practical info</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="flist">
+          <li><a href="mailto:learningdecisionmakingcourse@gmail.com">Email the teaching team</a></li>
+          <li>29 rue d’Ulm, 75005 Paris</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>© 2026 Learning &amp; Decision-Making course</span>
+      <span>Teachers: S. Palminteri · M. Lebreton · TA: M. L’Hôtellier</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* ---- mobile menu ---- */
+(function(){
+  var btn = document.getElementById('menu-btn'),
+      nav = document.getElementById('mobile-nav');
+  if(!btn || !nav) return;
+  btn.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'Close' : 'Menu';
+  });
+  nav.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      btn.textContent = 'Menu';
+    }
+  });
+})();
+
+/* ---- accordion: animate open AND close, keep <details> semantics ---- */
+document.querySelectorAll('details.ses').forEach(function(d){
+  var summary = d.querySelector('summary'),
+      reveal  = d.querySelector('.reveal');
+  summary.addEventListener('click', function(e){
+    e.preventDefault();
+    if(d.hasAttribute('data-open')){
+      d.removeAttribute('data-open');
+      var done = function(){ d.open = false; reveal.removeEventListener('transitionend', done); };
+      reveal.addEventListener('transitionend', done);
+      setTimeout(done, 420);              // fallback if transitionend never fires
+    } else {
+      d.open = true;
+      requestAnimationFrame(function(){ d.setAttribute('data-open',''); });
+    }
+  });
+});
+
+/* ---- reveal sections on scroll ---- */
+(function(){
+  var items = document.querySelectorAll('.rise');
+  if(!('IntersectionObserver' in window) ||
+     window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    items.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+  items.forEach(function(el, i){
+    el.style.transitionDelay = (Math.min(i,4) * 60) + 'ms';
+    io.observe(el);
+  });
+  // safety net: never leave content invisible if the observer misfires
+  setTimeout(function(){ items.forEach(function(el){ el.classList.add('in'); }); }, 4000);
+  window.addEventListener('beforeprint', function(){
+    items.forEach(function(el){ el.classList.add('in'); });
+  });
+})();
+</script>
+
+</body>
+</html>
