@@ -7,7 +7,7 @@
 <meta name="description" content="A graduate course on the behavioural and computational science of value-based decision-making. Master Cognitive Science (M2), École normale supérieure – PSL. Tuesdays 9:30–11:30, 8 September – 15 December 2026.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Learning &amp; Decision-Making · Master Cognitive Science">
-<meta property="og:description" content="How humans, and increasingly machines, learn from experience and choose among options that differ in value, risk, time and social consequence.">
+<meta property="og:description" content="How humans learn from experience and choose among options that differ in value, probability, risk, delay and social consequence.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -126,6 +126,7 @@ img,svg{max-width:100%}
 .eyebrow::before{content:"";width:26px;height:1.5px;background:currentColor;flex:0 0 auto;opacity:.75}
 
 .lede{font-size:var(--s1);line-height:1.6;color:var(--ink)}
+.lede cite{font-style:italic}
 .muted{color:var(--muted)}
 
 /* ============================================================
@@ -277,6 +278,10 @@ h2.sec{font-size:var(--s3);margin:0 0 1.15rem;max-width:20ch}
 }
 .card p{color:var(--muted);font-size:var(--s-1);line-height:1.6}
 .contact-line{margin-top:1.6rem;font-size:var(--s-1);color:var(--muted)}
+.person-link{margin-top:.6rem}
+.person-link a{font-size:.85rem;font-weight:600}
+.person-link .arrow{display:inline-block;transition:transform .2s var(--ease)}
+.person-link a:hover .arrow{transform:translateX(3px)}
 
 /* ---- Schedule ---- */
 .tablewrap{margin-top:1.9rem;border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden;background:var(--card)}
@@ -323,7 +328,7 @@ summary{
 }
 summary::-webkit-details-marker{display:none}
 .num{
-  flex:0 0 auto;width:32px;height:32px;border-radius:var(--radius-s);
+  flex:0 0 auto;min-width:32px;height:32px;padding:0 .4rem;border-radius:var(--radius-s);
   background:color-mix(in srgb,var(--c) 22%,var(--card));color:var(--c-ink);
   display:grid;place-items:center;
   font-family:var(--mono);font-size:13px;font-weight:600;
@@ -361,7 +366,7 @@ html.js details.ses[data-open] .reveal{grid-template-rows:1fr}
 footer.site{background:var(--deep);color:var(--on-deep-soft);border:0;position:relative;overflow:hidden}
 footer.site .footmotif{position:absolute;left:0;right:0;top:0;height:120px;width:100%;opacity:.3;z-index:0}
 footer.site .wrap{position:relative;z-index:1;padding-block:clamp(2.75rem,1.8rem + 3vw,4rem) 2rem}
-footer.site .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem}
+footer.site .cols{display:grid;grid-template-columns:1.7fr 1fr 1.35fr 1.1fr;gap:2rem}
 footer.site h4{
   font-family:var(--mono);color:var(--peach);font-size:var(--s-2);font-weight:500;
   letter-spacing:.12em;text-transform:uppercase;margin:0 0 .9rem;
@@ -373,6 +378,10 @@ footer.site .brand .mark{background:rgba(255,255,255,.12);color:#fff}
 footer.site .brand .sub{color:var(--on-deep-soft)}
 footer.site .blurb{max-width:38ch;font-size:var(--s-1);line-height:1.65;color:var(--on-deep-soft)}
 footer .flist{list-style:none;margin:0;padding:0;font-size:var(--s-1);display:grid;gap:.55rem}
+/* links that leave the site say so, and open in a new tab */
+footer a.ext{display:inline}   /* inline, not flex, so the ↗ follows the last word when the label wraps */
+footer a.ext .ico{display:inline-block;margin-left:.34em;font-size:.82em;opacity:.6;transition:transform .2s var(--ease),opacity .2s var(--ease)}
+footer a.ext:hover .ico{opacity:1;transform:translate(1px,-1px)}
 footer .fine{
   margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.14);
   font-family:var(--mono);font-size:var(--s-2);color:var(--on-deep-soft);
@@ -489,7 +498,7 @@ html:not(.js) .rise{opacity:1;transform:none}
   <div class="wrap">
     <p class="kicker">Master Cognitive Science · École normale supérieure – PSL</p>
     <h1>Learning &amp; <em>Decision-Making</em></h1>
-    <p class="lead">A graduate course on the behavioural and computational science of value-based decision-making: how humans, and increasingly machines, learn from experience and choose among options that differ in value, risk, time and social consequence.</p>
+    <p class="lead">An overview of the science of value-based decision-making: how humans learn from experience and choose among options that differ in value, probability, risk, delay and social consequence.</p>
     <div class="chips">
       <span class="chip"><b>M2</b> level</span>
       <span class="chip"><b>4</b> ECTS</span>
@@ -513,14 +522,14 @@ html:not(.js) .rise{opacity:1;transform:none}
       <div class="rise">
         <p class="eyebrow">Overview</p>
         <h2 class="sec">About the course</h2>
-        <p class="lede">This course provides an overview of the science of value-based decision-making: how humans learn from experience and choose among options that differ in value, probability, risk, delay and social consequence. It approaches decision-making at two levels: the careful behavioural description of choice phenomena, and their explanation through formal and computational models.</p>
-        <p style="margin-top:1.1rem;color:var(--muted)">Normative benchmarks from economics and statistics serve as points of comparison against which systematic behavioural deviations are characterised and then re-interpreted, not automatically as errors but often as adaptive or resource-rational responses to the structure of the environment. The emphasis throughout is on connecting behavioural phenomena to mechanistic, computational explanations, and on keeping the normative, descriptive and mechanistic levels of analysis clearly distinct.</p>
+        <p class="lede">This course provides an overview of the science of value-based decision-making: how humans learn from experience and choose among options that differ in value, probability, risk, delay and social consequence. It approaches decision-making at two levels: the behavioural description of choice phenomena, and their explanation through formal and computational models.</p>
+        <p style="margin-top:1.1rem;color:var(--muted)">Normative benchmarks from economics and statistics serve as points of comparison against which systematic behavioural deviations are characterised and then re-interpreted not automatically as errors, but often as adaptive or resource-rational responses to the structure of the environment. The emphasis throughout is on connecting behavioural phenomena to mechanistic, computational explanations, and on keeping the normative, descriptive and mechanistic levels of analysis clearly distinct.</p>
       </div>
       <div class="facts rise">
         <div class="fact"><span class="k">Level</span><span class="v">M2 · 4 ECTS</span></div>
         <div class="fact"><span class="k">Prerequisite</span><span class="v">None</span></div>
         <div class="fact"><span class="k">Language</span><span class="v">English</span></div>
-        <div class="fact"><span class="k">Assessment</span><span class="v">Homework + group talk</span></div>
+        <div class="fact"><span class="k">Evaluation</span><span class="v">Homework + group talk</span></div>
         <div class="fact"><span class="k">Room</span><span class="v">Théodule Ribot</span></div>
       </div>
     </div>
@@ -539,12 +548,14 @@ html:not(.js) .rise{opacity:1;transform:none}
         <h3>Dr Stefano Palminteri</h3>
         <div class="role">Teacher</div>
         <p>Reinforcement learning, value-based decision-making, and the behavioural study of learning in humans and machines.</p>
+        <p class="person-link"><a href="https://sites.google.com/site/stefanopalminteri/home" target="_blank" rel="noopener">Personal page <span class="arrow" aria-hidden="true">→</span></a></p>
       </div>
       <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
         <div class="avatar" aria-hidden="true">ML</div>
         <h3>Dr Maël Lebreton</h3>
         <div class="role">Teacher</div>
         <p>Decision under uncertainty, valuation, metacognition and confidence in human decision-making.</p>
+        <p class="person-link"><a href="https://sites.google.com/site/maellebreton/home" target="_blank" rel="noopener">Personal page <span class="arrow" aria-hidden="true">→</span></a></p>
       </div>
       <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
         <div class="avatar" aria-hidden="true">ML</div>
@@ -553,7 +564,7 @@ html:not(.js) .rise{opacity:1;transform:none}
         <p>Supports all sessions, homework and the final presentations.</p>
       </div>
     </div>
-    <p class="contact-line rise">Contact: <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>, a generic address that redirects to the three of us.</p>
+    <p class="contact-line rise">Contact: <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>. This generic address will redirect emails to our three personal accounts.</p>
   </div>
 </section>
 
@@ -561,23 +572,23 @@ html:not(.js) .rise{opacity:1;transform:none}
   <div class="wrap">
     <div class="sec-head rise">
       <p class="eyebrow">Calendar</p>
-      <h2 class="sec">2026–2027 schedule</h2>
-      <p class="lede measure">Classes are held on Tuesdays, 9:30–11:30, at 29 rue d’Ulm (Room Théodule Ribot). The course runs from 8 September to 15 December 2026, with three breaks.</p>
+      <h2 class="sec">2026–2027 programme</h2>
+      <p class="lede measure">Classes are held on Tuesdays from 9:30 to 11:30, at 29 rue d’Ulm (Room Théodule Ribot). The course runs from 8 September to 15 December 2026. There is no class on 27 October (autumn break), 17 November, or 24 November (PSL Week).</p>
     </div>
     <div class="tablewrap rise">
       <table>
         <thead><tr><th scope="col">Date</th><th scope="col">Session</th><th scope="col">Teachers</th></tr></thead>
         <tbody>
-          <tr><td class="date">Tue 8 Sep 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Introduction to decision-making</td><td class="teach">SP · MLe · MLh</td></tr>
-          <tr><td class="date">Tue 15 Sep 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Decision-making under uncertainty</td><td class="teach">MLe · MLh</td></tr>
-          <tr><td class="date">Tue 22 Sep 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Simple choices</td><td class="teach">MLe · MLh</td></tr>
-          <tr><td class="date">Tue 29 Sep 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Reinforcement Learning 1</td><td class="teach">SP · MLh</td></tr>
-          <tr><td class="date">Tue 6 Oct 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Contextual decision-making</td><td class="teach">MLe · MLh</td></tr>
-          <tr><td class="date">Tue 13 Oct 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Reinforcement Learning 2</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 8 Sep 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Introduction to decision-making</td><td class="teach">SP · MLh (+ MLe)</td></tr>
+          <tr><td class="date">Tue 15 Sep 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Decision-making under uncertainty and delay</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 22 Sep 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Simple choices as dynamic processes</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 29 Sep 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Reinforcement Learning: introduction</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 6 Oct 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Contextual decision-making and adaptive coding</td><td class="teach">MLe · MLh</td></tr>
+          <tr><td class="date">Tue 13 Oct 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Reinforcement Learning: biases and meta-learning</td><td class="teach">SP · MLh</td></tr>
           <tr><td class="date">Tue 20 Oct 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Metacognition</td><td class="teach">MLe · MLh</td></tr>
           <tr class="off"><td class="date">Tue 27 Oct 2026</td><td class="sess"><span class="dot"></span>No class (autumn break)</td><td class="teach"></td></tr>
           <tr><td class="date">Tue 3 Nov 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Social Learning</td><td class="teach">MLe · MLh</td></tr>
-          <tr><td class="date">Tue 10 Nov 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Artificial learning and decision-making</td><td class="teach">SP · MLh</td></tr>
+          <tr><td class="date">Tue 10 Nov 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Artificial decision-making</td><td class="teach">SP · MLh</td></tr>
           <tr class="off"><td class="date">Tue 17 Nov 2026</td><td class="sess"><span class="dot"></span>No class</td><td class="teach"></td></tr>
           <tr class="off"><td class="date">Tue 24 Nov 2026</td><td class="sess"><span class="dot"></span>No class (PSL Week)</td><td class="teach"></td></tr>
           <tr><td class="date">Tue 1 Dec 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Applying learning and decision-making research</td><td class="teach">SP · MLh</td></tr>
@@ -594,63 +605,63 @@ html:not(.js) .rise{opacity:1;transform:none}
   <div class="wrap">
     <div class="sec-head rise">
       <p class="eyebrow">Syllabus</p>
-      <h2 class="sec">Class by class</h2>
-      <p class="lede measure">The course is a single intellectual progression, from the foundations of choice through learning, metacognition and social decision-making, to artificial agents and applications. Click a session to expand.</p>
+      <h2 class="sec">Classes content</h2>
+      <p class="lede measure">This section outlines the content of each class. Some adjustments may still occur, but the broad structure will remain as described. Similar topics, treated in a more accessible form for a general audience, are covered in the teachers’ book <a href="https://global.oup.com/academic/product/decision-making-9780198869573" target="_blank" rel="noopener"><cite>Decision Making: A Very Short Introduction</cite></a> (Palminteri &amp; Wyart, Oxford University Press). Click a session to expand.</p>
     </div>
     <div class="syllabus">
 
       <details class="ses rise" open data-open style="--c:var(--blue);--c-ink:var(--blue-ink)">
         <summary><span class="num">1</span><span class="t">Introduction to decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          Introduces decision-making as a multidisciplinary field studied through normative (philosophy, mathematics, economics), descriptive (psychology, behavioural economics) and engineering/AI approaches. Surveys the tools and types of data used to study decisions, and the theory-building frameworks that organise the course (aggregate versus mechanistic, descriptive versus normative), together with Marr’s three levels of analysis, of which the course concentrates on the computational and algorithmic. Sets the guiding aim: describe choice behaviour carefully, then explain it with formal and computational models.
+          This first class introduces decision-making as a multidisciplinary field studied through normative (philosophy, mathematics, economics), descriptive (psychology, behavioural economics) and engineering/AI approaches. It surveys the tools and types of data used to study decisions, from formal models to behavioural measures, and introduces the theory-building frameworks that organise the course (aggregate versus mechanistic, and descriptive versus normative accounts) together with Marr’s three levels of analysis (computational, algorithmic, implementational), of which the course concentrates on the first two. It sets out the guiding aim: to describe choice behaviour carefully and then explain it with formal and computational models.
           <div class="tags"><span class="tag">Marr’s levels</span><span class="tag">Normative vs descriptive</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
-        <summary><span class="num">2</span><span class="t">Decision-making under uncertainty</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">2</span><span class="t">Decision-making under uncertainty and delay</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          From Pascal’s wager, the St Petersburg paradox and Bernoulli’s utility to axiomatic expected-utility theory, and the anomalies (mixed gambles, the fourfold pattern) that Prospect Theory accommodates through gains, losses and loss aversion. Extends the same logic from risk to time: intertemporal choice and delay discounting, exponential versus hyperbolic discounting, and the preference reversals and present bias that follow. Closes on bounded rationality and the care required when eliciting preferences over risk and delay.
+          This class explores how people decide under risk and uncertainty, starting from historical foundations such as Pascal’s wager, the St Petersburg paradox and Bernoulli’s utility theory. It explains risk attitudes through utility functions and axiomatic expected-utility theory, and confronts them with anomalies such as mixed gambles and the fourfold pattern, which Prospect Theory accommodates through gains, losses and loss aversion, though it in turn faces heuristic explanations and problems of inconsistent risk elicitation. The class then extends the same logic from risk to time, introducing intertemporal choice and delay discounting: how future outcomes are devalued, the contrast between exponential and hyperbolic discounting, and the preference reversals and present bias that follow. It closes on bounded rationality and the methodological care required when eliciting preferences over both risk and delay.
           <div class="tags"><span class="tag">Prospect Theory</span><span class="tag">Delay discounting</span><span class="tag">Intertemporal choice</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
-        <summary><span class="num">3</span><span class="t">Simple choices</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">3</span><span class="t">Simple choices as dynamic processes</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          How a value-based decision is actually made once options are valued: a common currency for comparing qualitatively different options, and loss aversion as a property of that comparison. Focuses on sequential-sampling models and in particular the drift-diffusion model, developed for perceptual decisions and extended to value-based choice, where the momentary value difference is accumulated to a threshold, jointly accounting for choices and response times (including attention-weighted variants). Raises whether “simple choices” are truly simple.
-          <div class="tags"><span class="tag">Drift-diffusion model</span><span class="tag">Value comparison</span></div>
+          This class asks how a value-based decision is actually made once options have been valued. It introduces the idea of a common currency in which qualitatively different options are compared, and revisits loss aversion as a property of how gains and losses enter this comparison. It then focuses on how choices unfold over time through sequential-sampling models, and in particular the drift-diffusion model: originally developed for perceptual decisions and extended to value-based choice, where noisy evidence (i.e., the momentary difference in value between options) is accumulated to a threshold, jointly accounting for choices and response times (including attention-weighted variants). This mechanistic account raises the question of whether “simple choices” are truly simple.
+          <div class="tags"><span class="tag">Common currency</span><span class="tag">Drift-diffusion model</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--peach);--c-ink:var(--peach-ink)">
-        <summary><span class="num">4</span><span class="t">Reinforcement Learning 1</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">4</span><span class="t">Reinforcement Learning: introduction</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          Learning from experience, opening with the description–experience gap: choices among described options differ systematically from choices learned through sampling and feedback. Develops reinforcement learning from its behavioural roots in Pavlovian and operant conditioning (Pavlov, Thorndike, Skinner) to the Rescorla-Wagner model, where learning is driven by surprise. Q-learning captures state and action values, and ε-greedy and softmax formalise the exploration–exploitation trade-off. The focus stays on behavioural and computational processes.
-          <div class="tags"><span class="tag">Description–experience gap</span><span class="tag">Rescorla-Wagner</span><span class="tag">Q-learning</span></div>
+          This class introduces learning from experience, beginning with the description-experience gap: the observation that choices among explicitly described options differ systematically from choices among options learned through sampling and feedback, which motivates a distinct treatment of experience-based decision-making and connects back to the sessions on risk. It then develops reinforcement learning from its behavioural roots (Pavlovian and operant conditioning in the work of Pavlov, Thorndike and Skinner) to the Rescorla-Wagner model, in which learning is driven by surprise, the discrepancy between expected and obtained outcomes. Post-cognitive-revolution formalisations follow, with Q-learning capturing state and action values and decision rules such as ε-greedy and softmax formalising the exploration–exploitation trade-off.
+          <div class="tags"><span class="tag">Description-experience gap</span><span class="tag">Rescorla-Wagner</span><span class="tag">Q-learning</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--orange);--c-ink:var(--orange-ink)">
-        <summary><span class="num">5</span><span class="t">Contextual decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">5</span><span class="t">Contextual decision-making and adaptive coding</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          How context shapes valuation, challenging the assumption of stable, context-invariant preferences: frames, reference points, ranges and menus (asymmetric dominance and decoy effects). These effects are captured computationally by divisive normalisation and, more generally, by efficient coding: limited representational resources allocated to the statistics of the environment, so adaptation and normalisation appear as near-optimal responses to coding constraints rather than failures of rationality.
+          This class examines how context shapes valuation, challenging the assumption of stable, context-invariant preferences. Context is analysed through frames (gain versus loss, the endowment effect), reference points (relative rather than absolute valuation), ranges (range-frequency effects and value normalisation) and menus (asymmetric dominance and decoy effects that violate the independence of irrelevant alternatives). These effects are captured computationally by mechanisms such as divisive normalisation and more generally by efficient coding, the principle that limited representational resources are allocated to match the statistics of the environment, so that adaptation and normalisation appear as near-optimal responses to coding constraints rather than failures of rationality. The class closes on open questions, such as whether distractor effects are better captured by divisive normalisation or by alternative models of value comparison.
           <div class="tags"><span class="tag">Efficient coding</span><span class="tag">Divisive normalisation</span><span class="tag">Decoy effects</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--blue);--c-ink:var(--blue-ink)">
-        <summary><span class="num">6</span><span class="t">Reinforcement Learning 2</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">6</span><span class="t">Reinforcement Learning: biases and meta-learning</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          The biases and refinements of reinforcement learning: whether learning is absolute or relative; valence-induced biases (updating more from positive than negative outcomes) and their links to risk-seeking, status-quo bias and overconfidence, including the perseveration debate. A central theme is the modulation of learning rates, asymmetrically for good versus bad news and dynamically with uncertainty and volatility, before introducing the distinction between model-free and model-based control.
-          <div class="tags"><span class="tag">Learning-rate modulation</span><span class="tag">Optimism bias</span><span class="tag">Model-based control</span></div>
+          This class turns to the biases and refinements of reinforcement learning. It first asks whether learning is absolute or relative, presenting evidence from psychology, cross-cultural work and animal studies that valuation is context-dependent, and weighing adaptive against alternative explanations. It then examines valence-induced biases (the tendency to update more from positive than from negative outcomes) and their links to risk-seeking, status-quo bias and overconfidence, including the debate over whether they reflect a genuine asymmetry or mere choice perseveration. A central theme is the modulation of learning rates: how the speed of updating is adjusted asymmetrically for good versus bad news, and dynamically as a function of uncertainty and volatility. The class then introduces the distinction between model-free and model-based control, as two ways in which past experience can guide choice.
+          <div class="tags"><span class="tag">Valence-induced bias</span><span class="tag">Learning-rate modulation</span><span class="tag">Model-based control</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)">
         <summary><span class="num">7</span><span class="t">Metacognition</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          Metacognition as the ability to evaluate one’s own decisions, captured through confidence judgements that track difficulty and the probability of being correct. Behavioural and animal studies reveal signatures of confidence (the X-pattern, sharper accuracy at high confidence); signal detection theory separates type-1 from type-2 performance (d’ and meta-d’). Considers whether a central metacognitive process governs confidence, and the motivational, affective and computational biases that shift it, sometimes producing overconfidence.
+          This class introduces metacognition as the ability to evaluate one’s own decisions, often captured through confidence judgements that track task difficulty and the probability of being correct. Behavioural and animal studies (such as opt-out tasks in monkeys and rats) reveal signatures of confidence, including its correlation with accuracy, the X-pattern across correct and incorrect trials, and sharper accuracy at high confidence. Models such as the evidence-distance model explain these signatures, while signal detection theory separates type-1 performance (decision accuracy) from type-2 performance (metacognitive accuracy) using measures such as d’ and meta-d’. The class then considers whether a central metacognitive process governs confidence across tasks, and closes on motivational, affective and computational biases through which incentives and emotions systematically shift confidence, sometimes producing overconfidence.
           <div class="tags"><span class="tag">Confidence</span><span class="tag">Signal detection theory</span><span class="tag">meta-d’</span></div>
         </div></div></div>
       </details>
@@ -658,32 +669,32 @@ html:not(.js) .rise{opacity:1;transform:none}
       <details class="ses rise" style="--c:var(--mint);--c-ink:var(--mint-ink)">
         <summary><span class="num">8</span><span class="t">Social Learning</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          How decisions are shaped by other people: social preferences (generosity, empathy, inequality aversion) that enter the utility function alongside personal payoffs. Experimental games (Ultimatum, Dictator) reveal the role of social context, identity and fairness; game theory formalises strategic interaction (Nash equilibria, coordination games, the Prisoner’s Dilemma), while humans deviate through bounded rationality and imperfect beliefs. Behavioural game theory shows how learning and experience shape social decisions, which vary across populations and contexts.
+          This class examines how decisions are shaped by other people, emphasising social preferences (generosity, empathy, inequality aversion) that enter the utility function alongside personal payoffs. Experimental games such as the Ultimatum and Dictator games reveal the importance of social context, player identity and fairness. Social strategic interaction is formalised through game theory (Nash equilibria, coordination and anti-coordination games) though humans often deviate from equilibrium predictions because of bounded rationality and imperfect beliefs. Behavioural game theory and repeated-game experiments show that learning and experience shape social decision-making, while social preferences themselves vary across populations and contexts. Controversies remain around empirical validity, generalisability and the mechanisms driving observed social behaviour.
           <div class="tags"><span class="tag">Social preferences</span><span class="tag">Game theory</span><span class="tag">Fairness</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--peach);--c-ink:var(--peach-ink)">
-        <summary><span class="num">9</span><span class="t">Artificial learning and decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">9</span><span class="t">Artificial decision-making</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          Applies the behavioural and computational lens of the course to artificial agents: delegating decisions to machines, and deciding with or against a machine (algorithmic advice, algorithm aversion and appreciation). Distinguishes explicit “explainable” expert systems from opaque connectionist networks, and asks how the choices of learning agents and large language models can be studied with the same paradigms used for humans, a “machine psychology”. Examines the alignment problem, and the opacity and brittleness of current systems, with reinforcement learning as the bridge between human and machine learning.
-          <div class="tags"><span class="tag">LLMs</span><span class="tag">Machine psychology</span><span class="tag">Alignment</span></div>
+          This class applies the behavioural and computational lens of the course to artificial agents. It opens with the prospect of delegating decisions to machines, and the specific situation of deciding with, or against, a machine: how people take or discount algorithmic advice, and when they show algorithm aversion or appreciation. It distinguishes types of artificial system (from explicit, “explainable” expert systems to opaque connectionist networks trained by example) and asks how their choices can be studied with the same paradigms used for humans, a “machine psychology” of learning agents and large language models. Because such models are trained on human-generated data, they can reproduce human biases while being perceived as objective. The class examines this alignment problem, together with the opacity and brittleness of current systems, using the reinforcement-learning framework of earlier sessions as the bridge between how humans and machines learn from experience. It closes on what is gained, and what is risked, when decisions are handed to systems whose objectives and constraints need not match our own.
+          <div class="tags"><span class="tag">Algorithm aversion</span><span class="tag">Machine psychology</span><span class="tag">Alignment</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--orange);--c-ink:var(--orange-ink)">
         <summary><span class="num">10</span><span class="t">Applying learning and decision-making research</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          How the science of decision-making can be used to improve decisions, contrasting three traditions of behaviour change: the behaviourist use of reinforcement and contingencies (Skinner); nudges that reshape the choice architecture while preserving freedom of choice (libertarian paternalism); and boosts that build people’s own competences, such as risk literacy. Then computational psychiatry (delusions as impaired Bayesian inference, addiction as reinforcement learning and discounting gone awry) and the transdiagnostic, dimensional view of decision parameters as continuous markers. Closes on the promise and limits of translation into health and policy.
+          This final lecture asks how the science of decision-making can be used to improve decisions, contrasting three traditions of behaviour change. The behaviourist tradition, following Skinner, changes behaviour through reinforcement and the arrangement of contingencies; nudges instead reshape the choice architecture to steer behaviour while preserving freedom of choice (libertarian paternalism); and boosts aim to build people’s own competences, such as risk literacy, that generalise and last. Setting these side by side clarifies what each assumes about the causes of behaviour and where each is likely to succeed or fail, along with their differing costs, durability and ethical exposure. The lecture then turns to computational psychiatry, where the learning and decision models developed across the course are used to characterise clinical conditions (delusions as impaired Bayesian inference, addiction as reinforcement learning and temporal discounting gone awry) and, through a transdiagnostic, dimensional view, to treat parameters such as learning rate and reward sensitivity as continuous markers that cut across diagnostic categories. It closes on the promise and the limits of translating decision research into health and policy.
           <div class="tags"><span class="tag">Nudges &amp; boosts</span><span class="tag">Skinner</span><span class="tag">Computational psychiatry</span></div>
         </div></div></div>
       </details>
 
       <details class="ses rise" style="--c:var(--blue);--c-ink:var(--blue-ink)">
-        <summary><span class="num">11</span><span class="t">Oral presentations (two sessions)</span><span class="chev" aria-hidden="true">⌄</span></summary>
+        <summary><span class="num">11–12</span><span class="t">Oral presentations</span><span class="chev" aria-hidden="true">⌄</span></summary>
         <div class="reveal"><div class="body"><div>
-          The course closes with two sessions of group presentations. Each group presents on papers of its choice connected to a course topic, and is assessed on its understanding, its critical analysis and its ability to communicate the key concepts of the course. Spreading the presentations across two Tuesdays (8 and 15 December) gives each group adequate time and lets the cohort engage with a wider range of topics.
-          <div class="tags"><span class="tag">Group work</span><span class="tag">Assessment</span></div>
+          The course closes with two sessions of group presentations. Each group presents papers of its choice connected to a course topic, and is assessed on its understanding, its critical analysis and its ability to communicate the key concepts of the course.
+          <div class="tags"><span class="tag">Group work</span><span class="tag">Evaluation</span></div>
         </div></div></div>
       </details>
 
@@ -695,13 +706,13 @@ html:not(.js) .rise{opacity:1;transform:none}
   <div class="wrap">
     <div class="sec-head rise">
       <p class="eyebrow">Practical information</p>
-      <h2 class="sec">Attending the course</h2>
+      <h2 class="sec">Practical information</h2>
     </div>
     <div class="info">
-      <div class="card rise" style="--c:var(--blue);--c-ink:var(--blue-ink)"><h3>Where</h3><p>29 rue d’Ulm, Room Théodule Ribot (ground floor; head past the large staircase and look for the hallway with wooden tables).</p></div>
-      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)"><h3>When</h3><p>Tuesdays, 9:30–11:30, from 8 September to 15 December 2026. No class on 27 October (autumn break), 17 November, or 24 November (PSL Week).</p></div>
-      <div class="card rise" style="--c:var(--orange);--c-ink:var(--orange-ink)"><h3>Registration</h3><p>To register, email <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>.</p></div>
-      <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)"><h3>Assessment</h3><p>A weighted combination of weekly homework assignments and a final group presentation. Grading criteria are detailed in the first class.</p></div>
+      <div class="card rise" style="--c:var(--blue);--c-ink:var(--blue-ink)"><h3>Location</h3><p>29 rue d’Ulm, Room Théodule Ribot (ground floor, head past the large staircase; the room is located in the hallway with wooden tables).</p></div>
+      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)"><h3>Schedule</h3><p>Classes are held on Tuesdays from 9:30 to 11:30. There is no class on 27 October (autumn break), 17 November, or 24 November (PSL Week); the course runs from 8 September to 15 December 2026.</p></div>
+      <div class="card rise" style="--c:var(--orange);--c-ink:var(--orange-ink)"><h3>Inscription to the class</h3><p>To register, please send us an email at <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>.</p></div>
+      <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)"><h3>Evaluation</h3><p>Assessment is based on a weighted combination of weekly homework assignments and a final group presentation. Further details on grading criteria and expectations will be provided in the first class.</p></div>
     </div>
   </div>
 </section>
@@ -729,6 +740,14 @@ html:not(.js) .rise{opacity:1;transform:none}
           <li><a href="#schedule">Schedule</a></li>
           <li><a href="#syllabus">Syllabus</a></li>
           <li><a href="#practical">Practical info</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>The master</h4>
+        <ul class="flist">
+          <li><a class="ext" href="https://master-cogsci.ens.psl.eu/fr/" target="_blank" rel="noopener">Master de sciences cognitives, ENS–PSL<span class="ico" aria-hidden="true">↗</span></a></li>
+          <li><a class="ext" href="https://psl.eu/formation/master-sciences-cognitives" target="_blank" rel="noopener">The programme on psl.eu<span class="ico" aria-hidden="true">↗</span></a></li>
+          <li><a class="ext" href="https://master-cogsci.ens.psl.eu/fr/cours/apprentissage-et-prise-de-decision/" target="_blank" rel="noopener">This course on the master’s site<span class="ico" aria-hidden="true">↗</span></a></li>
         </ul>
       </div>
       <div>
