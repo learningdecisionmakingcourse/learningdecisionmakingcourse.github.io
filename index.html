@@ -43,6 +43,8 @@
   --btn-hero-bg:#FBCE9E; --btn-hero-fg:#12324F; --btn-hero-bg-hover:#FFFFFF;
   --mark-bg:#1C5588;     --mark-fg:#FDF9F3;
   --logo-plate:transparent; --logo-pad:0;
+  --notice-bg:#FCEAD5;    --notice-line:#FCDFC0;
+  --notice-tag:#96491A;   --notice-ink:#4A3C2C;  --notice-strong:#2E2419;
   --shadow-card:rgba(18,50,79,.45);
 
   /* fluid type scale */
@@ -88,6 +90,8 @@
     --btn-hero-bg:#FBCE9E; --btn-hero-fg:#0B1922; --btn-hero-bg-hover:#FFFFFF;
     --mark-bg:#86B8E4;     --mark-fg:#0B1922;
     --logo-plate:#F4F0E9;   --logo-pad:5px 9px;
+    --notice-bg:#241F18;    --notice-line:#3A3024;
+    --notice-tag:#FBCE9E;   --notice-ink:#DED5C6;  --notice-strong:#F7EFE2;
     --shadow-card:rgba(0,0,0,.6);
   }
 }
@@ -192,6 +196,25 @@ nav.links a:not(.btn):hover::after,nav.links a:not(.btn):focus-visible::after{tr
 #mobile-nav ul{list-style:none;margin:0;padding:.6rem var(--gutter) 1.1rem}
 #mobile-nav li+li{border-top:1px solid var(--hairline-soft)}
 #mobile-nav a{display:block;padding:.72rem 0;text-decoration:none;color:var(--ink);font-weight:500}
+
+/* ============================================================
+   Schedule-change notice
+   ============================================================ */
+.notice{background:var(--notice-bg);border-bottom:1px solid var(--notice-line)}
+.notice .wrap{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.5rem;padding-block:.95rem}
+.notice-tag{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--mono);font-size:var(--s-2);font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--notice-tag);
+}
+.notice-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.notice-date{font-weight:400;letter-spacing:.05em;text-transform:none;opacity:.75}
+.notice-body{flex:1 1 26rem;min-width:0;font-size:var(--s-1);line-height:1.6;color:var(--notice-ink)}
+.notice-body b{font-weight:600;color:var(--notice-strong)}
+.notice-link{flex:0 0 auto;font-size:var(--s-1);font-weight:600;color:var(--notice-tag);text-decoration:none;white-space:nowrap}
+.notice-link:hover{text-decoration:underline}
+.notice-link .arrow{display:inline-block;transition:transform .2s var(--ease)}
+.notice-link:hover .arrow{transform:translateX(3px)}
 
 /* ============================================================
    Hero
@@ -317,6 +340,14 @@ tr.off td.sess .dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ha
   display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;
 }
 .legend b{font-family:var(--mono);color:var(--ink-strong);font-weight:600;margin-right:.3rem}
+/* the three rows touched by the October change */
+tr.changed td:first-child{box-shadow:inset 3px 0 0 var(--orange)}
+.upd{
+  display:inline-block;margin-left:.6rem;vertical-align:.1em;
+  font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--notice-tag);background:var(--notice-bg);border:1px solid var(--notice-line);
+  padding:.08rem .45rem;border-radius:999px;
+}
 
 /* ---- Syllabus ---- */
 .syllabus{margin-top:1.9rem;display:grid;gap:.7rem}
@@ -458,6 +489,8 @@ html:not(.js) .rise{opacity:1;transform:none}
   td.sess{font-size:1rem;font-family:var(--serif);letter-spacing:-.01em}
   td.teach{margin-top:.3rem;font-size:.75rem}
   td.teach:empty{display:none}   /* "no class" rows have no teachers to list */
+  tr.changed{box-shadow:inset 3px 0 0 var(--orange)}
+  tr.changed td:first-child{box-shadow:none}
   tr.off{background:color-mix(in srgb,var(--surface) 45%,var(--card))}
   tr.off td{background:transparent}
 }
@@ -498,6 +531,14 @@ html:not(.js) .rise{opacity:1;transform:none}
 </header>
 
 <main id="main">
+
+<aside class="notice" aria-label="Schedule update">
+  <div class="wrap">
+    <p class="notice-tag">Schedule update<span class="notice-date">20 Oct 2026</span></p>
+    <p class="notice-body">The class of <b>13 October</b> could not be held. <b>Reinforcement Learning: biases and meta-learning</b> has moved to <b>3 November</b>, and <b>Social Learning</b> now takes place on <b>17 November</b>.</p>
+    <a class="notice-link" href="#schedule">See the calendar <span class="arrow" aria-hidden="true">&rarr;</span></a>
+  </div>
+</aside>
 
 <section class="hero" id="top" style="border:0">
   <svg class="motif" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -589,7 +630,7 @@ html:not(.js) .rise{opacity:1;transform:none}
     <div class="sec-head rise">
       <p class="eyebrow">Calendar</p>
       <h2 class="sec">2026–2027 programme</h2>
-      <p class="lede measure">Classes are held on Tuesdays from 9:30 to 11:30, at 29 rue d’Ulm (Room Théodule Ribot). The course runs from 8 September to 15 December 2026. There is no class on 27 October (autumn break), 17 November, or 24 November (PSL Week).</p>
+      <p class="lede measure">Classes are held on Tuesdays from 9:30 to 11:30, at 29 rue d’Ulm.</p>
     </div>
     <div class="tablewrap rise">
       <table>
@@ -600,12 +641,12 @@ html:not(.js) .rise{opacity:1;transform:none}
           <tr><td class="date">Tue 22 Sep 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Simple choices as dynamic processes</td><td class="teach">MLe · MLh</td></tr>
           <tr><td class="date">Tue 29 Sep 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Reinforcement Learning: introduction</td><td class="teach">SP · MLh</td></tr>
           <tr><td class="date">Tue 6 Oct 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Contextual decision-making and adaptive coding</td><td class="teach">MLe · MLh</td></tr>
-          <tr><td class="date">Tue 13 Oct 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Reinforcement Learning: biases and meta-learning</td><td class="teach">SP · MLh</td></tr>
+          <tr class="off changed"><td class="date">Tue 13 Oct 2026</td><td class="sess"><span class="dot"></span>No class (moved to 3 November)</td><td class="teach"></td></tr>
           <tr><td class="date">Tue 20 Oct 2026</td><td class="sess" style="--c:var(--cyan-ink)"><span class="dot"></span>Metacognition</td><td class="teach">MLe · MLh</td></tr>
           <tr class="off"><td class="date">Tue 27 Oct 2026</td><td class="sess"><span class="dot"></span>No class (autumn break)</td><td class="teach"></td></tr>
-          <tr><td class="date">Tue 3 Nov 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Social Learning</td><td class="teach">MLe · MLh</td></tr>
+          <tr class="changed"><td class="date">Tue 3 Nov 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Reinforcement Learning: biases and meta-learning<span class="upd">updated</span></td><td class="teach">SP · MLh</td></tr>
           <tr><td class="date">Tue 10 Nov 2026</td><td class="sess" style="--c:var(--peach-ink)"><span class="dot"></span>Artificial decision-making</td><td class="teach">SP · MLh</td></tr>
-          <tr class="off"><td class="date">Tue 17 Nov 2026</td><td class="sess"><span class="dot"></span>No class</td><td class="teach"></td></tr>
+          <tr class="changed"><td class="date">Tue 17 Nov 2026</td><td class="sess" style="--c:var(--mint-ink)"><span class="dot"></span>Social Learning<span class="upd">updated</span></td><td class="teach">MLe · MLh</td></tr>
           <tr class="off"><td class="date">Tue 24 Nov 2026</td><td class="sess"><span class="dot"></span>No class (PSL Week)</td><td class="teach"></td></tr>
           <tr><td class="date">Tue 1 Dec 2026</td><td class="sess" style="--c:var(--orange-ink)"><span class="dot"></span>Applying learning and decision-making research</td><td class="teach">SP · MLh</td></tr>
           <tr><td class="date">Tue 8 Dec 2026</td><td class="sess" style="--c:var(--blue-ink)"><span class="dot"></span>Oral presentations (1 of 2)</td><td class="teach">SP · MLe · MLh</td></tr>
@@ -726,7 +767,7 @@ html:not(.js) .rise{opacity:1;transform:none}
     </div>
     <div class="info">
       <div class="card rise" style="--c:var(--blue);--c-ink:var(--blue-ink)"><h3>Location</h3><p>29 rue d’Ulm, Room Théodule Ribot (ground floor, head past the large staircase; the room is located in the hallway with wooden tables).</p></div>
-      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)"><h3>Schedule</h3><p>Classes are held on Tuesdays from 9:30 to 11:30. There is no class on 27 October (autumn break), 17 November, or 24 November (PSL Week); the course runs from 8 September to 15 December 2026.</p></div>
+      <div class="card rise" style="--c:var(--cyan);--c-ink:var(--cyan-ink)"><h3>Schedule</h3><p>Classes are held on Tuesdays from 9:30 to 11:30. There is no class on 13 October, 27 October (autumn break) or 24 November (PSL Week); the course runs from 8 September to 15 December 2026.</p></div>
       <div class="card rise" style="--c:var(--orange);--c-ink:var(--orange-ink)"><h3>Inscription to the class</h3><p>To register, please send us an email at <a href="mailto:learningdecisionmakingcourse@gmail.com">learningdecisionmakingcourse@gmail.com</a>.</p></div>
       <div class="card rise" style="--c:var(--mint);--c-ink:var(--mint-ink)"><h3>Evaluation</h3><p>Assessment is based on a weighted combination of weekly homework assignments and a final group presentation. Further details on grading criteria and expectations will be provided in the first class.</p></div>
     </div>
